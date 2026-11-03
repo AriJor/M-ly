@@ -1,8 +1,10 @@
 # Möly
 
---> Käynnistys <--
+--//--//> Käynnistys <//--//--
 1. [Datan jakaminen]
+
 => node server.js
 
 2. [Sivusto]
+
 => npx serve public
