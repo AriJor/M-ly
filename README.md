@@ -1,5 +1,6 @@
 # Möly
 
-=> How to start the data: "node server.js"
+--> Käynnistys <--
+1. Käynnistä datan jakaminen: "node server.js"
 
-=> How to start the server: "npx serve public"
+2. Käynnistä sivusto: "npx serve public"
