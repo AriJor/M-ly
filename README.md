@@ -1,6 +1,8 @@
 # Möly
 
 --> Käynnistys <--
-1. Käynnistä datan jakaminen: "node server.js"
+1. [Datan jakaminen]
+=> node server.js
 
-2. Käynnistä sivusto: "npx serve public"
+2. [Sivusto]
+=> npx serve public
