@@ -1,0 +1,50 @@
+/* Global */
+@import url(./src/styles/globalStyle.css);
+@import url(./src/styles/globalVariables.css);
+@import url(./src/styles/globalVariables.css) animation;
+
+/* Load */
+@import url(./components/launchButton/style.css);
+
+body {
+    background-image: url(assets/background-grid.png);
+    background-repeat: repeat;
+    background-size: auto 100%;
+    animation:
+        backgroundGrid 30s linear infinite,
+        appearFromAbove 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Body animations */
+@keyframes backgroundGrid {
+  from {
+      background-position: 0 0;
+  }
+  to {
+      background-position: 1000px 1000px;
+  }
+}
+@keyframes appearFromAbove {
+    0% {
+    opacity: 0;
+    transform: translateY(-200px);
+    }
+    100% {
+    opacity: 1;
+    transform: translateY(0);
+    }
+}
+
+/* Main container */
+#main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25vh;
+}
+#title {
+    letter-spacing: 2.5vw;
+    font-size: clamp(2rem, 8rem, 6rem);
+    color: var(--text-color);
+}

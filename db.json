@@ -1,0 +1,15 @@
+{
+  "users": {
+    "id": 1,
+    "nickname": "e",
+    "password": "e",
+    
+    "addedFriends": {},
+    "friendRequests": {},
+    
+    "sentMessages": {
+      "friends": {},
+      "direct": {}
+    }
+  }
+}
