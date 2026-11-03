@@ -6,27 +6,24 @@ loginInputContainer.addEventListener('submit', async (event) => {
   const password = document.querySelector("#login-password input").value;
 
   try {
-      const response = await fetch('http://localhost:3000/api/login', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ username, password })
-      });
+    const response = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
 
-      const data = await response.json();
-      if (response.ok && data.success) {
-          localStorage.setItem('authToken', data.token);
-          localStorage.setItem('currentUser', JSON.stringify(data.user));
-
-          alert("Login successful!");
-          window.location.href = "../main/main.html";
-      } else {
-          const errorMsg = data.message || response.statusText || "Login failed.";
-          alert("Error: " + errorMsg);
-      }
+    const data = await response.json();
+    if (response.ok && data.success) {
+      alert("Login successful!");
+      window.location.href = "../main/main.html";
+    } else {
+      const errorMsg = data.message || response.statusText || "Login failed.";
+      alert("Error: " + errorMsg);
+    }
   } catch (error) {
-      console.error("Network or server error:", error);
-      alert("Failed to connect to the server.");
+    console.error("Network or server error:", error);
+    alert("Failed to connect to the server.");
   }
 });
