@@ -3,11 +3,8 @@
 ----------------------------------
 ==========> Käynnistys <==========
 ----------------------------------
-1. [Datan jakaminen]
+1. [Datan jakaminen] => node server.js
 
-=> node server.js
+2. [Sivusto] => npx serve public
 
-2. [Sivusto]
-
-=> npx serve public
 ----------------------------------
