@@ -3,6 +3,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="global.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kirjaudu sisään</title>
     </head>
 
@@ -10,7 +11,7 @@
         <div id="login-form">
             <b>Tervetuloa takaisin!</b>
 
-            <div id="login-input-container">
+            <form id="login-input-container">
                 <div id="login-username">
                     <p>Käyttäjänimi</p>
                     <input type="text">
@@ -18,18 +19,18 @@
 
                 <div id="login-password">
                     <p>Salasana</p>
-                    <input type="text">
+                    <input type="password">
                 </div>
 
                 <div id="login-give-data">
-                    <button type="button">Kirjaudu</button>
+                    <button type="submit">Kirjaudu</button>
                 </div>
 
                 <div id="login-register-link">
                     <p>Eikö ole tiliä? </p>
-                    <a href="">Registeröi</a>
+                    <a href="../register/register.html">Registeröi</a>
                 </div>
-            </div>
+            </form>
         </div>
     </body>
 

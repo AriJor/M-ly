@@ -1,15 +1,16 @@
 {
-  "users": {
-    "id": 1,
-    "nickname": "e",
-    "password": "e",
-    
-    "addedFriends": {},
-    "friendRequests": {},
-    
-    "sentMessages": {
-      "friends": {},
-      "direct": {}
+  "users": [
+    {
+      "id": "1",
+      "username": "e",
+      "password": "e",
+      "addedFriends": [],
+      "friendRequests": [],
+      "sentMessages": {
+        "friends": [],
+        "direct": []
+      },
+      "token": "cc0b480ccccf48d82914066539ef014a70edaf4db589464f261eb8c0a5b272a6"
     }
-  }
+  ]
 }

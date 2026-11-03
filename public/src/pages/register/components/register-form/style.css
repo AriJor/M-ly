@@ -1,0 +1,103 @@
+@import url("../../../../../src/styles/globalVariables.css");
+
+#register-form {
+    position: relative;
+    background-color: var(--secondary-background-color);
+    width: 27vw;
+    min-width: 300px;
+    height: fit-content;
+    padding-bottom: 2vh;
+    border: none;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 2vw;
+}
+
+#register-form b {
+    position: relative;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    top: 4vh;
+    color: var(--text-color);
+    text-align: center;
+    width: 100%;
+}
+
+#register-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    height: fit-content;
+    border: none;
+    border-radius: 15px;
+    margin-left: 0;
+    margin-top: 4vh;
+    gap: 2vh;
+}
+
+#register-username, #register-password, #register-give-data {    
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+#register-username p, #register-password p {
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-left: 6px;
+    margin-bottom: 5px;
+}
+
+#register-username input, #register-password input {
+    height: 45px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--input-box-color);
+    color: var(--text-color);
+    font-size: 1.1rem;
+    padding-left: 0.8vw;
+    padding-right: 0.8vw;
+    box-sizing: border-box;
+    margin-left: 0;
+    outline: none;
+}
+
+#register-give-data {
+    margin-top: 1vh;
+}
+
+#register-give-data button {
+    height: 45px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-left: 0;
+}
+
+#register-register-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+#register-register-link p {
+    color: var(--text-color);
+    margin: 0;
+}
+
+#register-register-link a {
+    color: deepskyblue;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
