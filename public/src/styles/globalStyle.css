@@ -7,16 +7,4 @@ body {
     min-height: 100vh;
     min-height: 100dvh;
     overflow: hidden;
-    animation: appearFromAbove 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes appearFromAbove {
-    0% {
-    opacity: 0;
-    transform: translateY(-200px);
-    }
-    100% {
-    opacity: 1;
-    transform: translateY(0);
-    }
 }

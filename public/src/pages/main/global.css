@@ -1,0 +1,6 @@
+/* Global */
+@import url(../../../src/styles/globalStyle.css);
+@import url(../../../src/styles/globalVariables.css);
+
+/* Leftside */
+@import url(./components//leftSide/style.css);
