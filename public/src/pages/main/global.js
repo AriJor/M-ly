@@ -1,3 +1,6 @@
+/* Left sidebar */
+import "./components/leftSide/script.js";
+
 async function fetchProtectedData() {
   // User token
   const token = localStorage.getItem('authToken');
