@@ -14,7 +14,7 @@
 =========> Suunnitelma <==========
 ----------------------------------
 
-Toiminnot =>
+[Toiminnot]
 * Tiliin kirjautuminen ja rekisteröiminen
 * Asetukset
   * Tili profiilin pfp vaihto (video, kuva & gif)
@@ -22,7 +22,8 @@ Toiminnot =>
 * Pikaryhmä tekeminen & liittyminen
   * Näytön- kameran jakaminen
 
-Käyttöliittymä =>
+[Käyttöliittymä]
+
 (kuva)
 
 ----------------------------------
