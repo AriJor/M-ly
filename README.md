@@ -23,7 +23,7 @@
   * Näytön- kameran jakaminen
 
 [Käyttöliittymä]
-![](image.png)
+
 (kuva)
 
 ----------------------------------
