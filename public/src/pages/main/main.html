@@ -7,24 +7,51 @@
         <title>Pääsivu</title>
     </head>
 
-    <body>
+    <body>  
         <div id="left-side">
-            <div>
-                <div id="search-bar-container">
-                    <input id="search-bar" type="text" placeholder="hae">
-                    <img src="../../../assets/search.png" alt="">
+            <button id="server-create" type="button"><b>Valmista serveri</b></button>
+            <input id="server-join" placeholder="serverin koodi"></input>
+            <div id="joined-server-list">
+                <div id="joined-server-list-container">
+                    <div id="joined-server-tempplate">
+                        <h1>Testi</h1>
+                        <button id="joined-server-open" type="button"></button>
+                    </div>
                 </div>
+            </div>
+            
+            <div id="user-info">
+                <button id="settings-open-button" type="button">
+                    <img id="user-settings-image" src="../../../assets/config.png" alt="">
+                </button>
                 
-                <div id="server-list">
-                    
-                </div>
-                
-                <input id="server-join" placeholder="serverin koodi"></input>
+                <img id="user-info-pfp" src="../../../assets/pfpVideo1.gif" alt="">
+                <video id="user-profile-background" src="../../../assets/minecraft-fireflies-forest-moewalls-com.mp4" type="video/gif" autoplay loop muted></video>
+                <p id="user-info-name">Käyttäjä 1</p>
+            </div>
+        </div>
 
-                <div id="user-info">
-                    <img src="../../../assets/pfp.jpeg" alt="">
-                    <video src="../../../assets/minecraft-fireflies-forest-moewalls-com.mp4" type="video/mp4" autoplay loop muted></video>
-                    <b>Käyttäjä 1</b>
+        <div id="server-container">
+            <div id="server-call-container">
+                <div id="default-server-call">
+                    <h1>Ei yhdistettyä puhelua...</h1>
+                </div>
+            </div>
+
+            <div id="server-text-container">
+                <div id="default-server-text">
+                    <h1>Ei yhdistettyä tekstiä...</h1>
+                </div>
+            </div>
+        </div>
+
+        <div id="middle-button-container">
+            <div>
+                <div id="create-server-button-container">
+                    <div>
+                        <input id="create-server-input" type="text" placeholder="anna nimi...">
+                        <button id="create-server-button" type="button">Valmista</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ loginInputContainer.addEventListener('submit', async (event) => {
 
     const data = await response.json();
     if (response.ok && data.success) {
-      alert("Login successful!");
+      localStorage.setItem('authToken', data.user.token);
       window.location.href = "../main/main.html";
     } else {
       const errorMsg = data.message || response.statusText || "Login failed.";

@@ -1,10 +1,6 @@
 /* Global */
 @import url(./src/styles/globalStyle.css);
 @import url(./src/styles/globalVariables.css);
-@import url(./src/styles/globalVariables.css) animation;
-
-/* Load */
-@import url(./components/launchButton/style.css);
 
 body {
     background-image: url(assets/background-grid.png);
@@ -41,10 +37,28 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 25vh;
+    margin-top: 30vh;
+    flex-wrap: wrap;
 }
 #title {
     letter-spacing: 2.5vw;
     font-size: clamp(2rem, 8rem, 6rem);
     color: var(--text-color);
+}
+
+#launch-button {
+    position: relative;
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 10px;
+    flex-grow: 1;
+    height: 7vh;
+    flex-basis: 200;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-right: 2vw;
+}
+#launch-button b {
+    font-size: 1.5rem;
 }

@@ -3,4 +3,15 @@
 @import url(../../../src/styles/globalVariables.css);
 
 /* Leftside */
-@import url(./components//leftSide/style.css);
+@import url(./components/leftSide/style.css);
+
+/* Settings */
+@import url(./components/settings/style.css);
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

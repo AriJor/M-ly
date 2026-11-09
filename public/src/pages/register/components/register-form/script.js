@@ -15,7 +15,6 @@ registerForm.addEventListener('submit', async (event) => {
     });
 
     const data = await response.json();
-
     if (response.ok && data.success) {
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('currentUser', JSON.stringify(data.user));
