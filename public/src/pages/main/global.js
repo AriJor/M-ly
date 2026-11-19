@@ -1,37 +1,56 @@
 /* Left sidebar */
 import "./components/leftSide/script.js";
 
-async function fetchProtectedData() {
-  // User token
-  const token = localStorage.getItem('authToken');
-  if (!token) {
-    alert("You are not logged in!");
-    window.location.href = "../login/login.html";
-    return;
-  }
+// Server container
+import { serverHandler } from "./components/serverContainer/script.js";
+
+async function loadUserData() {
+  const token = localStorage.getItem("authToken"); 
 
   try {
-    // Get data from through the backend
-    const response = await fetch('http://localhost:3000/api/main', {
-      method: 'GET',
+    const response = await fetch("http://10.29.71.203:3000/api/main", {
+      method: "GET",
       headers: {
-        'Authorization': `Bearer ${token}`
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       }
     });
 
-    // Info
-    const data = await response.json();
+    const selectedData = await response.json();
+    if (response.ok && selectedData.success) {
+      // Load joined servers
+      const data = selectedData.server
+      for (const server of data.joinedServers) {
+        const joinedServerListContainer = document.querySelector("#joined-server-list-container");
+        const joinedServerTemplate = document.querySelector("#joined-server-template");
+        if (joinedServerListContainer && joinedServerTemplate) {
+          const copy = joinedServerTemplate.cloneNode(true);
+          if (copy) {
+            const serverContainer = document.querySelector("#server-container");
+            serverContainer.classList.add(server);
+            
+            const serverTitle = copy.querySelector("h1");
+            serverTitle.textContent = server;
 
-    // Check if data is available
-    if (response.ok) {
-      console.log("Protected data received:", data);
+            serverHandler(copy, server);
+            copy.style.display = "block";
+            joinedServerListContainer.append(copy);
+          } else {
+            console.error("Could not get the copy for the server")
+          }
+        } else {
+          console.error("Joined server container & template not found")
+        }
+      }
+
+      // Load user info
+      const userInfoName = document.querySelector("#user-info-name");
+      userInfoName.textContent = data.username
     } else {
-      alert("Session expired or invalid. Please log in again.");
-      localStorage.clear();
-      window.location.href = "../login/login.html";
+      alert(data.message || "User data load failed.");
     }
   } catch (error) {
     console.error("Error connecting to server:", error);
   }
 }
-fetchProtectedData();
+loadUserData();

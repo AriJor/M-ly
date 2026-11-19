@@ -1,133 +1,56 @@
-// Require
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const crypto = require('crypto');
 
-// Setup
+// Require
+import fs from 'fs';
+import express from 'express';
+import cors from 'cors';
+import http from 'node:http';
+
+import { Server } from 'socket.io';
+import { callConnection } from "./backend/script/api/script/serverCall.js";
+import { setupApi } from "./backend/script/api/handler.js";
+
+// Main setup
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Get
-app.get('/', (req, res) => {
-    res.send("API Server is running!");
+// Setup
+setupApi(app);
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
 });
-app.get('/api/main', (req, res) => {
-  // Check authorization
-  const authHeader = req.headers['authorization'];
-  if (!authHeader) {
-    return res.status(401).json({
-      success: false,
-      message: "No token provided"
-    });
-  }
+callConnection(io);
 
-  // Info
-  const token = authHeader.split(' ')[1];
+io.on("connection", (socket) => {
+  socket.on("chat message", ({ sentMessage, serverName, username }) => {
+    io.emit("chat message", {sentMessage: sentMessage, username: username});
 
-  // Find user data
-  const data = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
-  const user = data.users.find(u => u.token === token);
-  if (!user) {
-    return res.status(403).json({
-      success: false,
-      message: "Invalid or expired token"
-    });
-  }
+    /*
+    try {
+      const data = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+      const serverData = data.servers.find(n => n.name === serverName);
+  
+      const textData = {
+        from: username,
+        text: sentMessage
+      }
 
-  // Return spesific data
-  res.json({
-    success: true,
-    user: {
-      id: user.id,
-      username: user.username
+      serverData.sentText.push(textData);
+      fs.writeFileSync('./db.json', JSON.stringify(data, null, 2));
+
+      console.log(serverData)
+    } catch (error) {
+      console.error("Error reading database:", error);
     }
+    */
   });
 });
 
-// Post
-app.post('/api/login', (req, res) => {
-  // Receive sent username & password
-  const { username, password } = req.body;
-
-  // Get user & data
-  const data = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
-  const user = data.users.find(user => user.username === username && user.password === password);
-
-  // When logged in, send required user data back to the frontend
-  if (user) {
-    fs.writeFileSync('./db.json', JSON.stringify(data, null, 2));
-    res.json({
-      success: true,
-      user: {
-        id: user.id,
-        username: user.username
-      }
-    });
-    // Expect an error, like wrongly inputted password
-  } else {
-    res.status(401).json({
-      success: false,
-      message: "Invalid username or password"
-    });
-  }
-});
-app.post('/api/register', (req, res) => {
-  // Receive sent username & password
-  const { username, password } = req.body;
-
-  // Check if both username & password have been sent
-  if (!username || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Username and password are required"
-    });
-  }
-
-  // Check if the sent username has already been taken
-  const data = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
-  const existingUser = data.users.find(u => u.username === username);
-  if (existingUser) {
-    return res.status(400).json({
-      success: false, message:
-      "Username is already taken"
-    });
-  }
-
-  // New user info
-  const lastId = data.users.length > 0 ? Number(data.users[data.users.length - 1].id) : 0;
-  const newId = lastId + 1;
-  const randomToken = crypto.randomBytes(32).toString('hex');
-
-  // Set the new user values
-  const newUser = {
-    id: eval(newId),
-    username: username,
-    password: password,
-    addedFriends: [],
-    friendRequests: [],
-    sentMessages: {
-      friends: [],
-      direct: []
-    },
-    token: randomToken
-  };
-
-  // Save the new user
-  data.users.push(newUser);
-  fs.writeFileSync('./db.json', JSON.stringify(data, null, 2));
-
-  // Send back the requred user data back to the frontend
-  res.json({
-      success: true,
-      message: "User registered successfully",
-      token: randomToken,
-      user: username
-    });
-});
-
 // Make sure "server.js" can run
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+server.listen(3000, () => {
+    console.log("Server running on http://10.29.71.203:3000");
 });

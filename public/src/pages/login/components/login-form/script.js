@@ -6,17 +6,19 @@ loginInputContainer.addEventListener('submit', async (event) => {
   const password = document.querySelector("#login-password input").value;
 
   try {
-    const response = await fetch('http://localhost:3000/api/login', {
-      method: 'POST',
+    const response = await fetch('http://10.29.71.203:3000/api/login', {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ username, password })
     });
 
     const data = await response.json();
     if (response.ok && data.success) {
-      alert("Login successful!");
+      localStorage.setItem("authToken", data.user.token);
+      localStorage.setItem("username", data.user.username)
+      
       window.location.href = "../main/main.html";
     } else {
       const errorMsg = data.message || response.statusText || "Login failed.";

@@ -3,4 +3,10 @@
 @import url(../../../src/styles/globalVariables.css);
 
 /* Leftside */
-@import url(./components//leftSide/style.css);
+@import url(./components/leftSide/style.css);
+
+/* Middle button container */
+@import url(./components/middleButtonContainer/style.css);
+
+/* Server container */
+@import url(./components/serverContainer/style.css);

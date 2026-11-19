@@ -13,6 +13,7 @@ body {
     animation:
         backgroundGrid 40s linear infinite,
         appearFromAbove 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    overflow-y: visible;
 }
 
 /* Body animations */
@@ -47,4 +48,46 @@ body {
     letter-spacing: 2.5vw;
     font-size: clamp(2rem, 8rem, 6rem);
     color: var(--text-color);
+}
+
+#launch-button {
+    position: relative;
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 10px;
+    flex-grow: 1;
+    height: 7vh;
+    flex-basis: 200;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-right: 2vw;
+}
+#launch-button b {
+    font-size: 1.5rem;
+}
+
+details {
+    position: relative;
+    margin-bottom: -51vw;
+    width: 20vw;
+    background-color: dimgray;
+    font-size: 1.5rem;
+    background-image: linear-gradient(180deg, var(--secondary-background-color), var(--main-background-color));
+    color: var(--text-color);
+}
+summary {
+    background-color: lightgray;
+    padding: 0.5vw;
+    background-image: linear-gradient(180deg, var(--main-background-color), var(--secondary-background-color));
+    color: var(--highlight-color);
+}
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 25vh;
+    gap: 10px;
 }

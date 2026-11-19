@@ -6,10 +6,10 @@ registerForm.addEventListener('submit', async (event) => {
   const password = document.querySelector("#register-password input").value;
 
   try {
-    const response = await fetch('http://localhost:3000/api/register', {
-      method: 'POST',
+    const response = await fetch('http://10.29.71.203:3000/api/register', {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ username, password })
     });
@@ -17,10 +17,10 @@ registerForm.addEventListener('submit', async (event) => {
     const data = await response.json();
 
     if (response.ok && data.success) {
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('currentUser', JSON.stringify(data.user));
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
       
-      alert("Registration successful! You can now log in.");
+      alert("Registration successful!");
       window.location.href = "../main/main.html";
     } else {
       alert(data.message || "Registration failed.");

@@ -7,27 +7,82 @@
         <title>Pääsivu</title>
     </head>
 
-    <body>
-        <div id="left-side">
-            <div>
-                <div id="search-bar-container">
-                    <input id="search-bar" type="text" placeholder="hae">
-                    <img src="../../../assets/search.png" alt="">
-                </div>
-                
-                <div id="server-list">
-                    
-                </div>
-                
+    <body>  
+        <nav>
+            <div id="left-side">
+                <button id="server-create" type="button"><b>Valmista serveri</b></button>
                 <input id="server-join" placeholder="serverin koodi"></input>
-
+                
+                <div id="joined-server-list">
+                    <div id="joined-server-list-container">
+                        <div id="joined-server-template">
+                            <h1>Testi</h1>
+                            <button id="joined-server-open" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                
                 <div id="user-info">
-                    <img src="../../../assets/pfp.jpeg" alt="">
-                    <video src="../../../assets/minecraft-fireflies-forest-moewalls-com.mp4" type="video/mp4" autoplay loop muted></video>
-                    <b>Käyttäjä 1</b>
+                    <button id="settings-open-button" type="button">
+                        <img id="user-settings-image" src="" alt="">
+                    </button>
+                    
+                    <img id="user-info-pfp" src="" alt="">
+                    <video id="user-profile-background" src="../../../assets/minecraft-fireflies-forest-moewalls-com.mp4" type="video/gif" autoplay loop muted></video>
+                    <p id="user-info-name">Käyttäjä 1</p>
                 </div>
             </div>
-        </div>
+        </nav>
+
+        <article>
+            <div id="server-container">
+                <div id="server-call-container">
+                    <div id="default-server-call-container">
+                        <ul id="server-call-user-container">
+                            <h1>Ei valittua serveriä...</h1>
+                            <li id="server-call-template">
+                                <img src="" alt="">
+                                <p>Käyttäjä</p>
+                            </li>
+                        </ul>
+
+                        <div id="server-call-button-container">
+                            <div>
+                                <button id="server-call-join-button"><b>Liity</b></button>
+                                <button id="server-call-mute-button"><img src="../../../assets/mute.png" alt=""></button>
+                                <button id="server-call-screenShare-button"><img src="../../../assets/screenShare.png" alt=""></button>
+                                <button id="server-call-back-button"><img src="../../../assets/back.png" alt=""></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div id="server-text-container">
+                    <div id="default-server-text-container">
+                        <div id="server-text-messages-wrapper">
+                            <div id="server-text-template">
+                                <img src="" alt="">
+                                <h1>Käyttäjä 1</h1>
+                                <p>Tekstiä</p>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <input id="default-server-textInput-container" type="text"></input>
+                </div>
+            </div>
+    
+            <div id="middle-button-container">
+                <div>
+                    <div id="create-server-button-container">
+                        <div>
+                            <input id="create-server-input" type="text" placeholder="anna nimi...">
+                            <button id="create-server-button" type="button">Valmista</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
     </body>
 
     <script type="module" src="global.js"></script>

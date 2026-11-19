@@ -10,14 +10,45 @@
         "friends": [],
         "direct": []
       },
+      "joinedServers": [
+        "testi"
+      ],
+      "selectedServer": "",
       "token": "c2cf8edc4a49937a6571cc5aef5018602ff537f7f937bc3a462fc5f7e1617cf2"
+    },
+    {
+      "id": 2,
+      "username": "te",
+      "password": "te",
+      "addedFriends": [],
+      "friendRequests": [],
+      "joinedServers": [
+        "testi"
+      ],
+      "sentMessages": {
+        "friends": [],
+        "direct": []
+      },
+      "token": "c37d35c22cc4a2bc7e2466d914c744a93861ea7c235afa186bb115b769cca532",
+      "selectedServer": ""
     }
   ],
   "servers": [
     {
       "name": "Möly",
       "joinCode": "liity",
-      "joinedUsers": []
+      "joinedUsers": [],
+      "owner": "e",
+      "onCall": [],
+      "sentText": []
+    },
+    {
+      "name": "testi",
+      "joinCode": "liity2",
+      "joinedUsers": [],
+      "owner": "e",
+      "onCall": [],
+      "sentText": []
     }
   ]
 }

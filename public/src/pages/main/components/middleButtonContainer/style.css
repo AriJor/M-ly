@@ -1,0 +1,69 @@
+/* Global */
+@import url(../../../src/styles/globalVariables.css);
+
+/* Middle button container div */
+#middle-button-container {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+}
+#middle-button-container div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* ---------------------------- */
+
+/* Create server div */
+#create-server-button-container {
+    position: relative;
+    background-color: var(--secondary-background-color);
+    max-width: 25%;
+    max-height: 15%;
+    border-radius: 15px;
+    border: solid var(--main-background-color) 4px;
+    animation: appearFromTop 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+#create-server-button-container div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#create-server-input {
+    position: relative;
+    width: 90%;
+    height: 35%;
+    outline: none;
+    border: none;
+    font-size: 1.25rem;
+    box-sizing: border-box;
+    text-align: left;
+    color: var(--text-color);
+    border-radius: 10px;
+    background-color: var(--input-box-color);
+    padding: 10px 15px;
+}
+#create-server-button {
+    position: relative;
+    width: 80%;
+    height: 40%;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    color: var(--text-color);
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: var(--highlight-color);
+}
+/* ---------------------------- */
