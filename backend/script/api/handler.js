@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { loginApi } from "./script/login.js";
 import { registerApi } from "./script/register.js";
 import { createServerApi } from "./script/createServer.js";
+import { joinServerApi } from "./script/joinServer.js";
 import { selectServerApi } from "./script/selectServer.js";
 import { mainApi } from "./script/main.js";
 
@@ -30,6 +31,10 @@ export function setupApi(app) {
   
   app.post('/api/createServer', (req, res) => {
     createServerApi(req, res, fs);
+  });
+
+  app.post('/api/joinServer', (req, res) => {
+    joinServerApi(req, res, fs);
   });
 
   console.log("All apis have been loaded")

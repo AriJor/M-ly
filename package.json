@@ -10,5 +10,6 @@
   },
   "scripts": {
     "server": "json-server db.json"
-  }
+  },
+  "type": "module"
 }

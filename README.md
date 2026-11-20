@@ -1,8 +1,6 @@
 # Möly
 
-----------------------------------
-==========> Käynnistys <==========
-----------------------------------
+# ==========> Käynnistys <==========
 1. [Datan jakaminen] => node server.js
 
 2. [Sivusto] => npx serve public
@@ -10,20 +8,13 @@
 ----------------------------------
 
 
-----------------------------------
-=========> Suunnitelma <==========
-----------------------------------
+# =========> Sisältää <==========
 
-[Toiminnot]
-* Tiliin kirjautuminen ja rekisteröiminen
-* Asetukset
-  * Tili profiilin pfp vaihto (video, kuva & gif)
-  * Tili profiilin taustakuvan vaihto (video, kuva & gif)
+* Tiliin kirjautuminen & rekisteröiminen
 * Pikaryhmä tekeminen & liittyminen
-  * Näytön- kameran jakaminen
-
-[Käyttöliittymä]
-
-(kuva)
+  * Ääni puhelu
+  * Poistu nappi
+  * Mykistys nappi
+  * Tekstin lähettäminen, tallentaminen & lataaminen
 
 ----------------------------------

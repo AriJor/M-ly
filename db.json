@@ -11,7 +11,8 @@
         "direct": []
       },
       "joinedServers": [
-        "testi"
+        "testi",
+        "Möly"
       ],
       "selectedServer": "",
       "token": "c2cf8edc4a49937a6571cc5aef5018602ff537f7f937bc3a462fc5f7e1617cf2"
@@ -48,7 +49,12 @@
       "joinedUsers": [],
       "owner": "e",
       "onCall": [],
-      "sentText": []
+      "sentText": [
+        {
+          "from": "e",
+          "text": "testi"
+        }
+      ]
     }
   ]
 }

@@ -10,6 +10,7 @@ const usersOnCall = {};
 let localStream = null;
 let peerConnections = {};
 
+// -------------> Audio functions <------------- \\
 function monitorAudioLevel(stream, onSpeechStateChange) {
   try {
     const audioCtx = new window.AudioContext;
@@ -46,42 +47,39 @@ function monitorAudioLevel(stream, onSpeechStateChange) {
     console.error("Error setting up audio:", error);
   }
 }
+// --------------------------------------------- \\
 
-function handleMuteButton() {
-  const muteButton = document.querySelector("#server-call-mute-button");
-  muteButton.addEventListener("click", () => {
-    if (!localStream) {
-      return
-    };
-    
-    const audioTrack = localStream.getAudioTracks()[0];
-    if (audioTrack) {
-      audioTrack.enabled = !audioTrack.enabled;
-      if (audioTrack.enabled) {
-        muteButton.style.backgroundColor = "green";
-      } else {
-        muteButton.style.backgroundColor = "red";
-      }
-    }
-  });
+// -------------> Remove functions <------------- \\
+function removePeerConnection(userId) {
+  if (peerConnections[userId]) {
+    peerConnections[userId].close();
+    delete peerConnections[userId];
+  }
+  const audioEl = document.querySelector(`#audio-${userId}`);
+  if (audioEl) {
+    audioEl.remove();
+  }
+  delete usersOnCall[userId];
 }
+// ----------------------------------------------- \\
 
+// -------------> Create functions <------------- \\
 function createPeerConnection(userId, isInitiator) {
   if (peerConnections[userId]) {
     return peerConnections[userId]
   };
 
-  const pc = new RTCPeerConnection(ICE_SERVERS);
-  peerConnections[userId] = pc;
+  const device = new RTCPeerConnection(ICE_SERVERS);
+  peerConnections[userId] = device;
 
   if (localStream) {
     localStream.getTracks().forEach(
-      track => pc.addTrack(track, localStream)
+      track => device.addTrack(track, localStream)
     );
   }
 
-  pc.ontrack = (event) => {
-    let remoteAudio = document.getElementById(`audio-${userId}`);
+  device.ontrack = (event) => {
+    let remoteAudio = document.querySelector(`#audio-${userId}`);
     if (!remoteAudio) {
       remoteAudio = document.createElement("audio");
       remoteAudio.id = `audio-${userId}`;
@@ -114,7 +112,7 @@ function createPeerConnection(userId, isInitiator) {
     });
   };
 
-  pc.onicecandidate = (event) => {
+  device.onicecandidate = (event) => {
     if (event.candidate) {
       socket.emit("signal", {
         to: userId,
@@ -126,21 +124,22 @@ function createPeerConnection(userId, isInitiator) {
   };
 
   if (isInitiator) {
-    pc.createOffer().then(offer => {
-      return pc.setLocalDescription(offer);
+    device.createOffer().then(offer => {
+      return device.setLocalDescription(offer);
     }).then(() => {
       socket.emit("signal", {
         to: userId,
         signal: {
-          description: pc.localDescription
+          description: device.localDescription
         }
       });
-    }).catch(err => console.error("Error creating offer:", err));
+    }).catch(error =>
+      console.error("Error creating offer:", error
+      ));
   }
   
-  return pc;
+  return device;
 }
-
 function createUserCallTemplate(name, userId) {
   const serverCallCemplate = document.querySelector("#server-call-template");
   const clone = serverCallCemplate.cloneNode(true);
@@ -159,7 +158,27 @@ function createUserCallTemplate(name, userId) {
     console.error("Could not clone server call template");
   }
 }
+// ----------------------------------------------- \\
 
+// -------------> Handle functions <------------- \\
+function handleMuteButton() {
+  const muteButton = document.querySelector("#server-call-mute-button");
+  muteButton.addEventListener("click", () => {
+    if (!localStream) {
+      return
+    };
+    
+    const audioTrack = localStream.getAudioTracks()[0];
+    if (audioTrack) {
+      audioTrack.enabled = !audioTrack.enabled;
+      if (audioTrack.enabled) {
+        muteButton.style.backgroundColor = "green";
+      } else {
+        muteButton.style.backgroundColor = "red";
+      }
+    }
+  });
+}
 function handleDefault() {
   const serverCallButtonContainer = document.querySelector("#server-call-button-container").querySelector("div");
   serverCallButtonContainer.style.display = "flex";
@@ -235,90 +254,129 @@ function handleDefault() {
     serverTextContainer.style.flex = "0 0 28%";
   }
 }
-
-function handleServerCall() {
+async function handleServerCall() {
   const serverCallJoinButton = document.querySelector("#server-call-join-button");
   serverCallJoinButton.addEventListener("click", async (event) => {
-    // Setup
-    serverCallJoinButton.style.backgroundColor = "red";
-    serverCallJoinButton.querySelector("b").textContent = "Poistu";
-
-    // Disconect from the call
-    serverCallJoinButton.addEventListener("click", async (event) => {
+    if (serverCallJoinButton.querySelector("b").textContent === "Liity") {
+      serverCallJoinButton.style.backgroundColor = "red";
+      serverCallJoinButton.querySelector("b").textContent = "Poistu";
+  
+      async function initAudioCall() {
+        try {
+          localStream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              autoGainControl: true
+            },
+            video: false
+          });
+      
+          const username = localStorage.getItem("username");
+          monitorAudioLevel(localStream, (speaking) => {
+            const userElement = document.querySelector(`[data-username="${username}"]`);
+            if (userElement) {
+              if (speaking) {
+                userElement.classList.add("speaking");
+              } else {
+                userElement.classList.remove("speaking");
+              }
+            }
+          });
+          
+          const muteButton = document.querySelector("#server-call-mute-button");
+          if (muteButton) {
+            muteButton.style.backgroundColor = "green";
+          }
+        } catch (error) {
+          console.error("Error accessing microphone:", error);
+          alert("Microphone access is required for the call.");
+        }
+      }
+      await initAudioCall();
+  
+      // Info
+      const username = localStorage.getItem("username");
+  
       // Setup
-      serverCallJoinButton.style.backgroundColor = "green";
-      serverCallJoinButton.querySelector("b").textContent = "Liity";
-
-      socket.emit("disconnecting");
-    });
-    
-    async function initAudioCall() {
-      try {
-        localStream = await navigator.mediaDevices.getUserMedia({ 
-          audio: {
-            autoGainControl: true
-          }, 
-          video: false 
-        });
-    
-        const username = localStorage.getItem("username");
-        monitorAudioLevel(localStream, (speaking) => {
-          const userElement = document.querySelector(`[data-username="${username}"]`);
-          if (userElement) {
-            if (speaking) {
-              userElement.classList.add("speaking");
-            } else {
-              userElement.classList.remove("speaking");
+      handleMuteButton();
+      socket.emit("join-call", {
+        roomId: 1,
+        username: username
+      });
+  
+      const serverCallUserContainer = document.querySelector("#server-call-user-container");
+      if (serverCallUserContainer) {
+        let isDuplicate = false;
+      
+        for (const user of serverCallUserContainer.children) {
+          const userText = user.querySelector("p");
+          if (userText) {
+            const gottenName = userText.textContent?.trim();
+            if (gottenName === username) {
+              console.log("Duplicate call template");
+              isDuplicate = true;
+              break;
             }
           }
-        });
-        
-        const muteButton = document.querySelector("#server-call-mute-button");
-        if (muteButton) {
-          muteButton.style.backgroundColor = "green";
         }
-      } catch (err) {
-        console.error("Error accessing microphone:", err);
-        alert("Microphone access is required for the call.");
-      }
-    }
-    await initAudioCall();    
-
-    // Info
-    const username = localStorage.getItem("username");
-
-    // Setup
-    handleMuteButton();
-    socket.emit("join-call", {
-      roomId: 1,
-      userName: username
-    });
-
-    // Create user template for server call & make sure to not create a duplicate
-    const serverCallUserContainer = document.querySelector("#server-call-user-container");
-    if (serverCallUserContainer) {
-      let isDuplicate = false;
-    
-      for (const user of serverCallUserContainer.children) {
-        const userText = user.querySelector("p");
-        if (userText) {
-          const gottenName = userText.textContent?.trim();
-          if (gottenName === username) {
-            console.log("Duplicate call template");
-            isDuplicate = true;
-            break;
-          }
+      
+        if (!isDuplicate) {
+          createUserCallTemplate(username);
         }
       }
+    } else {
+      // Disconnect from the call
+      serverCallJoinButton.style.backgroundColor = "green";
+      serverCallJoinButton.querySelector("b").textContent = "Liity";
+          
+      socket.emit("leave-call", {
+        roomId: 1,
+        username: localStorage.getItem("username")
+      });
     
-      if (!isDuplicate) {
-        createUserCallTemplate(username);
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
       }
+    
+      Object.keys(peerConnections).forEach(userId => {
+        removePeerConnection(userId);
+      });
+    
+      const serverCallUserContainer = document.querySelector("#server-call-user-container");
+      const userCards = serverCallUserContainer.querySelectorAll("[data-username]");
+      userCards.forEach(card => card.remove());
     }
   });
 }
+function handleServerText(serverData) {
+  console.log(serverData)
+  // Delete old messages
+  const serverTextMessagesWrapper = document.querySelector("#server-text-messages-wrapper");
+  const serverTextTemplate = document.querySelector("#server-text-template");
+  serverTextMessagesWrapper.replaceChildren(serverTextTemplate);
 
-function handleServerText() {
+  function createText(savedTextInfo) {
+    if (serverTextTemplate) {
+      const clone = serverTextTemplate.cloneNode(true);
+    
+      const contentText = clone.querySelector("p");
+      contentText.textContent = savedTextInfo.text;
+  
+      const sentUser = clone.querySelector("h1");
+      sentUser.textContent = savedTextInfo.from;
+  
+      clone.style.display = "flex";
+      
+      serverTextMessagesWrapper.append(clone);
+      serverTextMessagesWrapper.scrollTop = serverTextMessagesWrapper.scrollHeight;
+    }
+  }
+  
+  // Load saved messages
+  for (const savedTextInfo of serverData.sentText) {
+    createText(savedTextInfo);
+  }
+  
   const defaultServerTextInputContainer = document.querySelector("#default-server-textInput-container");
   defaultServerTextInputContainer.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
@@ -341,7 +399,9 @@ function handleServerText() {
     }
   });
 }
+// ----------------------------------------------- \\
 
+// -------------> Main function <------------- \\
 export function serverHandler(copy, server) {
   const serverButton = copy.querySelector("button");
   if (!serverButton) return;
@@ -360,7 +420,7 @@ export function serverHandler(copy, server) {
       if (response.ok && data.success) {
         handleDefault();
         handleServerCall();
-        handleServerText();
+        handleServerText(data.serverData);
       } else {
         alert(data.message || "Failed to fetch server data.");
       }
@@ -370,57 +430,72 @@ export function serverHandler(copy, server) {
     }
   });
 }
-
+// ------------------------------------------- \\
 
 // -------------> Socket on <------------- \\
+// Connect \\
 socket.on("connect", () => {
   console.log("Connected successfully! Socket ID:", socket.id);
 });
-
-socket.on("connect_error", (err) => {
-  console.error("Connection failed:", err.message);
+socket.on("connect_error", (error) => {
+  console.error("Connection failed:", error.message);
 });
 
+// Room \\
 socket.on("room-users", (users) => {
   users.forEach(user => {
     if (user.userId !== socket.id) {
-      createUserCallTemplate(user.userName, user.userId);
+      createUserCallTemplate(user.username, user.userId);
       createPeerConnection(user.userId, true);
     }
   });
 });
-
 socket.on("user-joined", async (data) => {
-  console.log(`${data.userName} joined the call!`);
-  createUserCallTemplate(data.userName, data.userId);
+  createUserCallTemplate(data.username, data.userId);
+});
+socket.on("user-left", async ({ username, userId }) => {
+  removePeerConnection(userId);
+  
+  const serverCallUserContainer = document.querySelector("#server-call-user-container");
+  if (serverCallUserContainer) {
+    for (const userCall of serverCallUserContainer.children) {
+      const dataUsername = userCall.getAttribute("data-username");
+      if (dataUsername && dataUsername === username) {
+        userCall.remove();
+      }
+    }
+  }
 });
 
+// Audio \\
 socket.on("signal", async ({ from, signal }) => {
-  let pc = peerConnections[from];
-  if (!pc) {
-    pc = createPeerConnection(from, false);
+  let device = peerConnections[from];
+  if (!device) {
+    device = createPeerConnection(from, false);
   }
 
   if (signal.description) {
-    await pc.setRemoteDescription(new RTCSessionDescription(signal.description));
+    await device.setRemoteDescription(new RTCSessionDescription(signal.description));
     if (signal.description.type === "offer") {
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
+      const answer = await device.createAnswer();
+      await device.setLocalDescription(answer);
       socket.emit("signal", {
         to: from,
         signal: {
-          description: pc.localDescription
+          description: device.localDescription
         }
       });
     }
   } else if (signal.candidate) {
     try {
-      await pc.addIceCandidate(new RTCIceCandidate(signal.candidate));
-    } catch (e) {
-      console.error("Error adding received ice candidate", e);
+      await device.addIceCandidate(new RTCIceCandidate(signal.candidate));
+    } catch (error) {
+      console.error("Error adding received ice candidate", error);
     }
   }
 });
+
+// Send message \\
 socket.on("chat message", ({ sentMessage, username }) => {
   const messagesWrapper = document.querySelector("#default-server-text-container").querySelector("div");
   const serverTextTemplate = document.querySelector("#server-text-template");

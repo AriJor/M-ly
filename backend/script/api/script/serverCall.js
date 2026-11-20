@@ -1,22 +1,19 @@
 export function callConnection(io) {
   io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
-
-    socket.on("join-call", async ({ roomId, userName }) => {  
-      // Check duplicate
+    
+    // Join call
+    socket.on("join-call", async ({ roomId, username }) => {  
       const socketsInRoom = await io.in(roomId).fetchSockets();
       const isAlreadyInRoom = socketsInRoom.some(
-        (x) => x.data.userName === userName || x.id === socket.id
+        (user) => user.data.username === username || user.id === socket.id
       );
-
-      console.log(`User ${userName} (${socket.id}) joined room ${roomId}`);
-
+      
       if (!isAlreadyInRoom) {
-        socket.data.userName = userName;
+        socket.data.username = username;
         
         const existingUsers = socketsInRoom.map(s => ({
           userId: s.id,
-          userName: s.data.userName
+          username: s.data.username
         }));
 
         socket.join(roomId);
@@ -24,11 +21,35 @@ export function callConnection(io) {
         
         socket.to(roomId).emit("user-joined", {
           userId: socket.id,
-          userName: userName,
-          timestamp: new Date().toISOString()
+          username: username
         });
       } else {
         console.error("Already on the call");
+      }
+    });
+
+    // Leave call
+    socket.on("leave-call", async ({ roomId, username }) => {
+      const currentUsername = socket.data.username || username;
+      
+      socket.to(roomId).emit("user-left", {
+        username: currentUsername,
+        userId: socket.id
+      });
+
+      socket.leave(roomId);
+      delete socket.data.username;
+    });
+    socket.on("disconnect", () => {
+      if (socket.data.username) {
+        socket.rooms.forEach((roomId) => {
+          if (roomId !== socket.id) {
+            socket.to(roomId).emit("user-left", {
+              username: socket.data.username,
+              userId: socket.id
+            });
+          }
+        });
       }
     });
 
@@ -38,20 +59,6 @@ export function callConnection(io) {
         signal
       });
     });
-  
-    socket.on("disconnecting", () => {
-      for (const roomId of socket.rooms) {
-        if (roomId !== socket.id) {
-          console.log(roomId, socket.id)
-          socket.to(roomId).emit("user-left", {
-            userId: socket.id
-          });
-        }
-      }
-    });
-
-    socket.on("user-left", async ({ userId }) => {
-      
-    })
+    
   });
 }

@@ -1,18 +1,6 @@
-
-// Server cerate
 const middleButtonContainer = document.querySelector("#middle-button-container");
-document.querySelector("#server-create").addEventListener("click", (event) => {
-  event.preventDefault();
-  middleButtonContainer.style.display = "block";
-});
 
-// Exit creating a server via Escape key
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    middleButtonContainer.style.display = "none";
-  }
-});
-
+// -------------> Create functions <------------- \\
 document.querySelector("#create-server-button").addEventListener("click", async (event) => {
   event.preventDefault();
 
@@ -21,12 +9,14 @@ document.querySelector("#create-server-button").addEventListener("click", async 
 
   try {
     const response = await fetch('http://10.29.71.203:3000/api/createServer', {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({ serverName: inputtedServerName })
+      body: JSON.stringify({
+        serverName: inputtedServerName
+      })
     });
 
     const serverData = await response.json();
@@ -63,3 +53,75 @@ document.querySelector("#create-server-button").addEventListener("click", async 
     alert("Could not connect to the server.");
   }
 });
+document.querySelector("#server-create").addEventListener("click", (event) => {
+  event.preventDefault();
+  middleButtonContainer.style.display = "block";
+});
+// --------------------------------------------- \\
+
+// -------------> Join functions <------------- \\
+document.querySelector("#server-join").addEventListener("keydown", async (event) => {
+  if (event.key === "Enter") {
+    const inputtedServerCode = document.querySelector("#server-join").value
+    if (inputtedServerCode) {
+      const token = localStorage.getItem("authToken"); 
+    
+      try {
+        const response = await fetch('http://10.29.71.203:3000/api/joinServer', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            serverCode: inputtedServerCode
+          })
+        });
+    
+        const serverData = await response.json();
+        if (response.ok && serverData.success) {
+          console.log(serverData.serverData);
+          alert("Joined a server");
+          middleButtonContainer.style.display = "none";
+    
+          const joinedServerListContainer = document.querySelector("#joined-server-list-container");
+          const joinedServerTempplate = document.querySelector("#joined-server-template");
+          if (joinedServerListContainer && joinedServerTempplate) {
+            const copy = joinedServerTempplate.cloneNode(true);
+            if (copy) {
+              const serverContainer = document.querySelector("#server-container");
+              serverContainer.classList.add(serverData.serverName);
+              
+              const serverTitle = copy.querySelector("h1");
+              serverTitle.textContent = serverData.serverName
+    
+              copy.style.display = "block";
+              copy.style.zIndez = "999";
+              joinedServerListContainer.append(copy);
+            } else {
+              console.error("Could not get the copy for the server")
+            }
+          } else {
+            console.error("Joined server container & template not found")
+          }
+        } else {
+          alert(serverData.message || "Server creation failed.");
+        }
+      } catch (error) {
+        console.error("Error connecting to server:", error);
+        alert("Could not connect to the server.");
+      }
+    }
+  }
+});
+// --------------------------------------------- \\
+
+
+// -------------> Misc functions <------------- \\
+// Exit creating a server via Escape key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    middleButtonContainer.style.display = "none";
+  }
+});
+// --------------------------------------------- \\
