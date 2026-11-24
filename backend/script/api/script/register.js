@@ -11,7 +11,7 @@ export function registerApi(req, res, fs, crypto) {
   }
 
   // Check if the sent username has already been taken
-  const data = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+  const data = JSON.parse(fs.readFileSync("./db.json", "utf8"));
   const existingUser = data.users.find(u => u.username === username);
   if (existingUser) {
     return res.status(400).json({
@@ -23,7 +23,7 @@ export function registerApi(req, res, fs, crypto) {
   // New user info
   const lastId = data.users.length > 0 ? Number(data.users[data.users.length - 1].id) : 0;
   const newId = lastId + 1;
-  const randomToken = crypto.randomBytes(32).toString('hex');
+  const randomToken = crypto.randomBytes(32).toString("hex");
 
   // Set the new user values
   const newUser = {
@@ -43,7 +43,7 @@ export function registerApi(req, res, fs, crypto) {
 
   // Save the new user
   data.users.push(newUser);
-  fs.writeFileSync('./db.json', JSON.stringify(data, null, 2));
+  fs.writeFileSync("./db.json", JSON.stringify(data, null, 2));
 
   // Send back the requred user data back to the frontend
   res.json({

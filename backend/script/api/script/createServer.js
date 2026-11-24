@@ -1,4 +1,4 @@
-export function createServerApi(req, res, fs) {
+export function createServerApi(req, res, fs, crypto) {
   // Check authorization
   const authHeader = req.headers['authorization'];
   if (!authHeader) {
@@ -36,11 +36,14 @@ export function createServerApi(req, res, fs) {
       message: "Server name is already taken"
     });
   }
+
+  // Generate server code
+  const serverCode = crypto.randomBytes(5).toString("hex");
   
   // Set the new server values
   const newServer = {
     "name": serverName,
-    "joinCode": "",
+    "joinCode": serverCode,
     "owner": user.username,
     "joinedUsers": [],
     "onCall": [],

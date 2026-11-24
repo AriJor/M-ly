@@ -30,7 +30,7 @@ export function setupApi(app) {
   });
   
   app.post('/api/createServer', (req, res) => {
-    createServerApi(req, res, fs);
+    createServerApi(req, res, fs, crypto);
   });
 
   app.post('/api/joinServer', (req, res) => {

@@ -12,7 +12,13 @@
       },
       "joinedServers": [
         "testi",
-        "Möly"
+        "Möly",
+        "e",
+        "a",
+        "as",
+        "at",
+        "dualism",
+        "dualisms"
       ],
       "selectedServer": "",
       "token": "c2cf8edc4a49937a6571cc5aef5018602ff537f7f937bc3a462fc5f7e1617cf2"
@@ -55,6 +61,66 @@
           "text": "testi"
         }
       ]
+    },
+    {
+      "name": "e",
+      "joinCode": "d764a79693",
+      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
+      "onCall": [],
+      "sentText": {}
+    },
+    {
+      "name": "a",
+      "joinCode": "12c89b9e3a",
+      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
+      "onCall": [],
+      "sentText": {}
+    },
+    {
+      "name": "as",
+      "joinCode": "6ab5bde1c8",
+      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
+      "onCall": [],
+      "sentText": {}
+    },
+    {
+      "name": "at",
+      "joinCode": "2714e058e6",
+      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
+      "onCall": [],
+      "sentText": {}
+    },
+    {
+      "name": "dualism",
+      "joinCode": "932560ff7f",
+      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
+      "onCall": [],
+      "sentText": {}
+    },
+    {
+      "name": "dualisms",
+      "joinCode": "11d319d51b",
+      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
+      "onCall": [],
+      "sentText": {}
     }
   ]
 }

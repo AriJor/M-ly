@@ -179,7 +179,11 @@ function handleMuteButton() {
     }
   });
 }
-function handleDefault() {
+function handleDefault(serverData) {
+  const defaultServerTextInputContainer = document.querySelector("#default-server-textInput-container");
+  defaultServerTextInputContainer.className = '';
+  defaultServerTextInputContainer.classList.add(serverData.name);
+  
   const serverCallButtonContainer = document.querySelector("#server-call-button-container").querySelector("div");
   serverCallButtonContainer.style.display = "flex";
 
@@ -207,7 +211,6 @@ function handleDefault() {
   if (onMobile() == true) {
     // PHONE
 
-    console.log("PHONE")
     document.querySelector("body").style.overflow = "auto";
 
     const serverCallTemplate = document.querySelector("#server-call-template");
@@ -238,8 +241,6 @@ function handleDefault() {
   } else {
     // PC
     
-    console.log("PC")
-    
     const defaultServerCallContainer = document.querySelector("#default-server-call-container");
     defaultServerCallContainer.style.opacity = "100%";
     
@@ -254,7 +255,7 @@ function handleDefault() {
     serverTextContainer.style.flex = "0 0 28%";
   }
 }
-async function handleServerCall() {
+async function handleServerCall(serverData) {
   const serverCallJoinButton = document.querySelector("#server-call-join-button");
   serverCallJoinButton.addEventListener("click", async (event) => {
     if (serverCallJoinButton.querySelector("b").textContent === "Liity") {
@@ -299,7 +300,7 @@ async function handleServerCall() {
       // Setup
       handleMuteButton();
       socket.emit("join-call", {
-        roomId: 1,
+        roomId: serverData.joinCode,
         username: username
       });
   
@@ -329,7 +330,7 @@ async function handleServerCall() {
       serverCallJoinButton.querySelector("b").textContent = "Liity";
           
       socket.emit("leave-call", {
-        roomId: 1,
+        roomId: serverData.joinCode,
         username: localStorage.getItem("username")
       });
     
@@ -348,8 +349,10 @@ async function handleServerCall() {
     }
   });
 }
+let activeServerName = null;
 function handleServerText(serverData) {
-  console.log(serverData)
+  activeServerName = serverData.name;
+
   // Delete old messages
   const serverTextMessagesWrapper = document.querySelector("#server-text-messages-wrapper");
   const serverTextTemplate = document.querySelector("#server-text-template");
@@ -366,40 +369,77 @@ function handleServerText(serverData) {
       sentUser.textContent = savedTextInfo.from;
   
       clone.style.display = "flex";
-      
       serverTextMessagesWrapper.append(clone);
       serverTextMessagesWrapper.scrollTop = serverTextMessagesWrapper.scrollHeight;
     }
   }
   
   // Load saved messages
-  for (const savedTextInfo of serverData.sentText) {
-    createText(savedTextInfo);
-  }
-  
-  const defaultServerTextInputContainer = document.querySelector("#default-server-textInput-container");
-  defaultServerTextInputContainer.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      
-      const serverContainer = document.querySelector("#server-container");
-      const serverName = serverContainer.classList[0];
-
-      const sentMessage = defaultServerTextInputContainer.value;
-      if (sentMessage) {
-        const username = localStorage.getItem("username");
-        console.log(username)
-        socket.emit("chat message",
-          {
-            sentMessage: sentMessage,
-            serverName: serverName,
-            username: username
-          });
-      }
+  if (serverData.sentText && serverData.sentText[0]) {
+    for (const savedTextInfo of serverData.sentText) {
+      createText(savedTextInfo);
     }
+  }
+}
+
+const defaultServerTextInputContainer = document.querySelector("#default-server-textInput-container");
+defaultServerTextInputContainer.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    
+    const sentMessage = defaultServerTextInputContainer.value;
+    if (sentMessage && activeServerName) {
+      const username = localStorage.getItem("username");
+      socket.emit("chat message", {
+        sentMessage: sentMessage,
+        serverName: activeServerName,
+        username: username
+      });
+      defaultServerTextInputContainer.value = "";
+    }
+  }
+});
+// ----------------------------------------------- \\
+
+// -------------> Animation functions <------------- \\
+function serverOpenAnimations() {
+  const serverCallContainer = document.querySelector("#server-call-container");
+  serverCallContainer.animate([
+    // 0%
+    { 
+      opacity: 0, 
+      transform: 'translateX(200px)' 
+    },
+    // 100%
+    { 
+      opacity: 1, 
+      transform: 'translateX(0)' 
+    }
+  ], {
+    duration: 1200,
+    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+    fill: 'forwards'
+  });
+  
+  const serverTextContainer = document.querySelector("#server-text-container");
+  serverTextContainer.animate([
+    // 0%
+    { 
+      opacity: 0, 
+      transform: 'translateX(200px)' 
+    },
+    // 100%
+    { 
+      opacity: 1, 
+      transform: 'translateX(0)' 
+    }
+  ], {
+    duration: 1000,
+    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+    fill: 'forwards'
   });
 }
-// ----------------------------------------------- \\
+// ------------------------------------------------- \\
 
 // -------------> Main function <------------- \\
 export function serverHandler(copy, server) {
@@ -418,8 +458,11 @@ export function serverHandler(copy, server) {
   
       const data = await response.json();
       if (response.ok && data.success) {
-        handleDefault();
-        handleServerCall();
+        socket.emit("join-server", data.serverData.name);
+        
+        handleDefault(data.serverData);
+        serverOpenAnimations();
+        handleServerCall(data.serverData);
         handleServerText(data.serverData);
       } else {
         alert(data.message || "Failed to fetch server data.");
@@ -499,7 +542,7 @@ socket.on("signal", async ({ from, signal }) => {
 socket.on("chat message", ({ sentMessage, username }) => {
   const messagesWrapper = document.querySelector("#default-server-text-container").querySelector("div");
   const serverTextTemplate = document.querySelector("#server-text-template");
-  
+  console.log(sentMessage, username)
   if (serverTextTemplate && messagesWrapper) {
     const clone = serverTextTemplate.cloneNode(true);
   
