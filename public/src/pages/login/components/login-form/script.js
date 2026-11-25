@@ -17,7 +17,7 @@ loginInputContainer.addEventListener('submit', async (event) => {
     const data = await response.json();
     if (response.ok && data.success) {
       localStorage.setItem("authToken", data.user.token);
-      localStorage.setItem("username", data.user.username)
+      localStorage.setItem("currentUser", data.user.username)
       
       window.location.href = "../main/main.html";
     } else {

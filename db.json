@@ -63,6 +63,22 @@
         {
           "from": "\"te\"",
           "text": "Hie"
+        },
+        {
+          "from": null,
+          "text": "Terve"
+        },
+        {
+          "from": null,
+          "text": "no moi"
+        },
+        {
+          "from": "e",
+          "text": "moi"
+        },
+        {
+          "from": "te",
+          "text": "Terce"
         }
       ]
     },

@@ -32,7 +32,7 @@ function monitorAudioLevel(stream, onSpeechStateChange) {
       }
       let average = x / dataArray.length;
 
-      const speakingThreshold = 10; 
+      const speakingThreshold = 5; 
       const currentlySpeaking = average > speakingThreshold;
       if (currentlySpeaking !== userSpeaking) {
         userSpeaking = currentlySpeaking;
@@ -275,7 +275,7 @@ async function handleServerCall(serverData) {
         try {
           localStream = await navigator.mediaDevices.getUserMedia({
             audio: {
-              autoGainControl: true
+              autoGainControl: false
             },
             video: false
           });
