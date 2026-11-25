@@ -1,3 +1,4 @@
+import { serverHandler } from "../serverContainer/script.js";
 const middleButtonContainer = document.querySelector("#middle-button-container");
 
 // -------------> Create functions <------------- \\
@@ -21,21 +22,23 @@ document.querySelector("#create-server-button").addEventListener("click", async 
 
     const serverData = await response.json();
     if (response.ok && serverData.success) {
-      console.log(serverData.serverData);
       alert("Server creation completed");
       middleButtonContainer.style.display = "none";
 
+      console.log(serverData.serverData)
+
       const joinedServerListContainer = document.querySelector("#joined-server-list-container");
-      const joinedServerTempplate = document.querySelector("#joined-server-tempplate");
+      const joinedServerTempplate = document.querySelector("#joined-server-template");
       if (joinedServerListContainer && joinedServerTempplate) {
         const copy = joinedServerTempplate.cloneNode(true);
         if (copy) {
           const serverContainer = document.querySelector("#server-container");
-          serverContainer.classList.add(serverData.serverName);
+          serverContainer.classList.add(serverData.serverData.name);
           
           const serverTitle = copy.querySelector("h1");
-          serverTitle.textContent = serverData.serverName
+          serverTitle.textContent = serverData.serverData.name
 
+          serverHandler(copy, serverData.serverData.name);
           copy.style.display = "block";
           copy.style.zIndez = "999";
           joinedServerListContainer.append(copy);
@@ -78,9 +81,9 @@ document.querySelector("#server-join").addEventListener("keydown", async (event)
           })
         });
     
-        const serverData = await response.json();
-        if (response.ok && serverData.success) {
-          console.log(serverData.serverData);
+        const data = await response.json();
+        if (response.ok && data.success) {
+          const serverData = data.serverData
           alert("Joined a server");
           middleButtonContainer.style.display = "none";
     
@@ -90,11 +93,12 @@ document.querySelector("#server-join").addEventListener("keydown", async (event)
             const copy = joinedServerTempplate.cloneNode(true);
             if (copy) {
               const serverContainer = document.querySelector("#server-container");
-              serverContainer.classList.add(serverData.serverName);
+              serverContainer.classList.add(serverData.name);
               
               const serverTitle = copy.querySelector("h1");
-              serverTitle.textContent = serverData.serverName
-    
+              serverTitle.textContent = serverData.name
+
+              serverHandler(copy, serverData.name);
               copy.style.display = "block";
               copy.style.zIndez = "999";
               joinedServerListContainer.append(copy);

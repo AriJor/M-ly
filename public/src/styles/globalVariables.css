@@ -3,5 +3,23 @@
     --secondary-background-color: #31363F;
     --highlight-color: #76ABAE;
     --text-color: #EEEEEE;
+    --input-box-color: #15171B;
+    --theme-color: black;
+}
+
+[data-theme="dark"] {
+    --main-background-color: #222831;
+    --secondary-background-color: #31363F;
+    --highlight-color: #76ABAE;
+    --text-color: #EEEEEE;
     --input-box-color: #15171B
+    --theme-color: black;
+}
+[data-theme="light"] {
+    --main-background-color: white;
+    --secondary-background-color: white;
+    --highlight-color: white;
+    --text-color: black;
+    --input-box-color: white
+    --theme-color: white;
 }

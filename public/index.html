@@ -7,25 +7,33 @@
         <title>Pääsivu</title>
     </head>
 
-    <body>        
+    <body>
+        <header>
+            <button id="theme-switch-button" type="button">
+                <img src="" alt="">
+            </button>
+        </header>
+    
         <article>
-            <div id="main-container">
+            <div>
                 <h1 id="title">Möly</h1>
                 <button id="launch-button" type="button"><b>Käynnistä</b></button>
             </div>
         </article>
 
-        <footer>
-            <details>
-                <summary>Tämä on teksti</summary>
-                <p>Teksti</p>
-            </details>
+        <h1 id="website-info-label">Tietoa</h1>
 
+        <div id="website-info-label-container">
             <details>
-                <summary>Tämä on teksti</summary>
-                <p>Teksti</p>
+                <summary>
+                    <img src="./assets/questionMark.png" alt="">
+                    <div id="details-content">
+                        <h1>Otsikko</h1>
+                        <p>Tässä sivustossa sinä voit tehdä oman serverin tai liittyä yhteen. Näissä servereissä voit puhua toisten kanssa ja lähettä viestejä.</p>
+                    </div>
+                </summary>
             </details>
-        </footer>
+        </div>
     </body>
 
     <script type="module" src="global.js"></script>

@@ -66,4 +66,10 @@
     cursor: pointer;
     background-color: var(--highlight-color);
 }
+#create-server-button:hover {
+    scale: 105%;
+}
+#create-server-button:active {
+    scale: 100%;
+}
 /* ---------------------------- */

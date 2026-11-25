@@ -47,7 +47,7 @@ export function createServerApi(req, res, fs, crypto) {
     "owner": user.username,
     "joinedUsers": [],
     "onCall": [],
-    "sentText": {}
+    "sentText": []
   };
 
   // Save the new server

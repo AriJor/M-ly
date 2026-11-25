@@ -96,11 +96,20 @@ function createPeerConnection(userId, isInitiator) {
     } else {
       remoteAudio.srcObject = event.streams[0];
     }
-
+    
     monitorAudioLevel(event.streams[0], (speaking) => {
       const remoteUsername = usersOnCall[userId];
       if (remoteUsername) {
-        const userElement = document.querySelector(`[data-username="${remoteUsername}"]`);
+        const userElements = document.querySelectorAll("[data-username]");
+        let userElement = null;
+        
+        for (const element of userElements) {
+          if (element.getAttribute("data-username") === remoteUsername) {
+            userElement = element;
+            break;
+          }
+        }
+
         if (userElement) {
           if (speaking) {
             userElement.classList.add("speaking");
@@ -295,7 +304,7 @@ async function handleServerCall(serverData) {
       await initAudioCall();
   
       // Info
-      const username = localStorage.getItem("username");
+      const username = localStorage.getItem("currentUser");
   
       // Setup
       handleMuteButton();
@@ -324,6 +333,26 @@ async function handleServerCall(serverData) {
           createUserCallTemplate(username);
         }
       }
+      
+      window.addEventListener("beforeunload", (event) => {
+        socket.emit("leave-call", {
+          roomId: serverData.joinCode,
+          username: localStorage.getItem("username")
+        });
+      
+        if (localStream) {
+          localStream.getTracks().forEach(track => track.stop());
+          localStream = null;
+        }
+      
+        Object.keys(peerConnections).forEach(userId => {
+          removePeerConnection(userId);
+        });
+      
+        const serverCallUserContainer = document.querySelector("#server-call-user-container");
+        const userCards = serverCallUserContainer.querySelectorAll("[data-username]");
+        userCards.forEach(card => card.remove());
+      });
     } else {
       // Disconnect from the call
       serverCallJoinButton.style.backgroundColor = "green";
@@ -389,7 +418,7 @@ defaultServerTextInputContainer.addEventListener("keydown", function(event) {
     
     const sentMessage = defaultServerTextInputContainer.value;
     if (sentMessage && activeServerName) {
-      const username = localStorage.getItem("username");
+      const username = localStorage.getItem("currentUser");
       socket.emit("chat message", {
         sentMessage: sentMessage,
         serverName: activeServerName,

@@ -1,27 +1,27 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "username": "e",
       "password": "e",
       "addedFriends": [],
       "friendRequests": [],
+      "joinedServers": [
+        "e",
+        "testi",
+        "testi2",
+        "Ee",
+        "Eeh",
+        "Eehg",
+        "Eehgh",
+        "Eehght"
+      ],
       "sentMessages": {
         "friends": [],
         "direct": []
       },
-      "joinedServers": [
-        "testi",
-        "Möly",
-        "e",
-        "a",
-        "as",
-        "at",
-        "dualism",
-        "dualisms"
-      ],
-      "selectedServer": "",
-      "token": "c2cf8edc4a49937a6571cc5aef5018602ff537f7f937bc3a462fc5f7e1617cf2"
+      "token": "f1ff0b1efdc31ae0bbb6b24218d961cde7d5a93d158f516420b66da999808c01",
+      "selectedServer": ""
     },
     {
       "id": 2,
@@ -30,97 +30,111 @@
       "addedFriends": [],
       "friendRequests": [],
       "joinedServers": [
-        "testi"
+        "e",
+        "testi2",
+        "Ee",
+        "Eeh",
+        "Eehg",
+        "Eehgh",
+        "Eehght"
       ],
       "sentMessages": {
         "friends": [],
         "direct": []
       },
-      "token": "c37d35c22cc4a2bc7e2466d914c744a93861ea7c235afa186bb115b769cca532",
+      "token": "3d8dd1b9cdd1d85ecd7b08944d045b3c15413b9b64c2b6170169774dcd926182",
       "selectedServer": ""
     }
   ],
   "servers": [
     {
-      "name": "Möly",
-      "joinCode": "liity",
-      "joinedUsers": [],
+      "name": "e",
+      "joinCode": "f8ca3bce0f",
       "owner": "e",
-      "onCall": [],
-      "sentText": []
-    },
-    {
-      "name": "testi",
-      "joinCode": "liity2",
-      "joinedUsers": [],
-      "owner": "e",
+      "joinedUsers": [
+        "e"
+      ],
       "onCall": [],
       "sentText": [
         {
-          "from": "e",
-          "text": "testi"
+          "from": "\"e\"",
+          "text": "e"
+        },
+        {
+          "from": "\"te\"",
+          "text": "Hie"
         }
       ]
     },
     {
-      "name": "e",
-      "joinCode": "d764a79693",
+      "name": "testi2",
+      "joinCode": "a2647e7bfd",
       "owner": "e",
       "joinedUsers": [
         "e"
       ],
       "onCall": [],
-      "sentText": {}
+      "sentText": [
+        {
+          "from": "\"e\"",
+          "text": "s"
+        }
+      ]
     },
     {
-      "name": "a",
-      "joinCode": "12c89b9e3a",
-      "owner": "e",
+      "name": "Ee",
+      "joinCode": "df6e271aaa",
+      "owner": "te",
       "joinedUsers": [
-        "e"
+        "te"
       ],
       "onCall": [],
-      "sentText": {}
+      "sentText": []
     },
     {
-      "name": "as",
-      "joinCode": "6ab5bde1c8",
-      "owner": "e",
+      "name": "Eeh",
+      "joinCode": "7f6da53cab",
+      "owner": "te",
       "joinedUsers": [
-        "e"
+        "te"
       ],
       "onCall": [],
-      "sentText": {}
+      "sentText": []
     },
     {
-      "name": "at",
-      "joinCode": "2714e058e6",
-      "owner": "e",
+      "name": "Eehg",
+      "joinCode": "a1492b0354",
+      "owner": "te",
       "joinedUsers": [
-        "e"
+        "te"
       ],
       "onCall": [],
-      "sentText": {}
+      "sentText": []
     },
     {
-      "name": "dualism",
-      "joinCode": "932560ff7f",
-      "owner": "e",
+      "name": "Eehgh",
+      "joinCode": "29cf52d7e1",
+      "owner": "te",
       "joinedUsers": [
-        "e"
+        "te"
       ],
       "onCall": [],
-      "sentText": {}
+      "sentText": []
     },
     {
-      "name": "dualisms",
-      "joinCode": "11d319d51b",
-      "owner": "e",
+      "name": "Eehght",
+      "joinCode": "664a26754c",
+      "owner": "te",
       "joinedUsers": [
-        "e"
+        "te"
       ],
       "onCall": [],
-      "sentText": {}
+      "sentText": [
+        {
+          "from": "\"e\"",
+          "text": "j"
+        }
+      ]
     }
   ]
 }

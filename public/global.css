@@ -4,19 +4,34 @@
 @import url(./src/styles/globalVariables.css) animation;
 
 /* Load */
-@import url(./components/launchButton/style.css);
+@import url(./components/article/style.css);
+@import url(./components/infoPanels/style.css);
+@import url(./components/header/style.css);
 
 body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0; 
     background-image: url(assets/background-grid.png);
     background-repeat: repeat;
     background-size: auto 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
     animation:
         backgroundGrid 40s linear infinite,
         appearFromAbove 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    overflow-y: visible;
 }
 
-/* Body animations */
+#website-info-label {
+    position: static; 
+    margin-top: 40vh;
+    color: var(--text-color);
+    font-size: 2.25rem;
+}
+
+/* Animations */
 @keyframes backgroundGrid {
   from {
       background-position: 0 0;
@@ -36,58 +51,9 @@ body {
     }
 }
 
-/* Main container */
-#main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 25vh;
-}
-#title {
-    letter-spacing: 2.5vw;
-    font-size: clamp(2rem, 8rem, 6rem);
-    color: var(--text-color);
-}
-
-#launch-button {
-    position: relative;
-    background-color: var(--highlight-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 10px;
-    flex-grow: 1;
-    height: 7vh;
-    flex-basis: 200;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin-right: 2vw;
-}
-#launch-button b {
-    font-size: 1.5rem;
-}
-
-details {
-    position: relative;
-    margin-bottom: -51vw;
-    width: 20vw;
-    background-color: dimgray;
-    font-size: 1.5rem;
-    background-image: linear-gradient(180deg, var(--secondary-background-color), var(--main-background-color));
-    color: var(--text-color);
-}
-summary {
-    background-color: lightgray;
-    padding: 0.5vw;
-    background-image: linear-gradient(180deg, var(--main-background-color), var(--secondary-background-color));
-    color: var(--highlight-color);
-}
-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    margin-top: 25vh;
-    gap: 10px;
+/* Responsiveness */
+@media screen and (min-width: 320px) and (max-width: 768px) {
+    #website-info-label {
+        font-size: 2rem;
+    }
 }

@@ -1,0 +1,22 @@
+/* Global */
+@import url(../../src/styles/globalVariables.css);
+
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%; 
+    height: 10vh;
+    flex-shrink: 0;
+}
+
+header button {
+    position: absolute;
+    background-color: var(--theme-color);
+    width: 45px; height: 45px;
+    border-radius: 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: none;
+    margin: 15px;
+    flex-shrink: 0;
+}

@@ -31,9 +31,10 @@ async function loadUserData() {
             
             const serverTitle = copy.querySelector("h1");
             serverTitle.textContent = server;
-
+            
             serverHandler(copy, server);
             copy.style.display = "block";
+            copy.style.zIndez = "999";
             joinedServerListContainer.append(copy);
           } else {
             console.error("Could not get the copy for the server")
